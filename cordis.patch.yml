@@ -1,0 +1,5 @@
+# dsh-projects-mode bundle patch: inserts the dual-face plugin row into the web
+# profile roster (same mechanism as the task-board / ssh / skill-explorer family).
+- insert:
+    - id: projects-mode
+      name: 'dsh-projects-mode'
