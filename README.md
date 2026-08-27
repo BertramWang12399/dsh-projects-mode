@@ -30,7 +30,7 @@
 ## 📦 安装
 
 ```bash
-git clone https://github.com/wanghaoze/dsh-projects-mode.git ~/.dsh/plugins/dsh-projects-mode
+git clone https://github.com/BertramWang12399/dsh-projects-mode.git ~/.dsh/plugins/dsh-projects-mode
 dsh plugin --profile web add link:$HOME/.dsh/plugins/dsh-projects-mode
 # 重启 dsh web（DSH Desktop 会自动拉起子进程），浏览器硬刷新（Cmd/Ctrl+Shift+R）
 ```
