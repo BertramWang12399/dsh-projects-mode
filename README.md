@@ -1,8 +1,8 @@
 # dsh-projects-mode
 
-<p align="center"><strong>为 DeepSeek Harness（DSH）Web GUI 打造的 WorkBuddy 风格「项目模式」</strong></p>
+<p align="center"><strong>为 DeepSeek Harness（DSH）Web GUI 打造的「项目模式」</strong></p>
 
-侧边栏功能行（任务看板 / SSH / 技能中心）新增「📁 项目」入口，点击在中间栏全屏打开项目管理台。把任意会话归入项目，为项目编写**实时生效的指令与共享记忆**，一键在项目内新建会话。
+<p align="center">侧边栏功能行（任务看板 / SSH / 技能中心）新增「📁 项目」入口，点击在中间栏全屏打开项目管理台。把任意会话归入项目，为项目编写<strong>实时生效的指令与共享记忆</strong>，一键在项目内新建会话。</p>
 
 ---
 
@@ -46,6 +46,8 @@ cd ~/.dsh/profiles/web && pnpm remove dsh-projects-mode
 
 ## 🆚 与社区同类插件的差异
 
+> 以下对比基于各项目 README 在本文撰写时点的公开描述，仅用于说明能力差异；如有出入，以原项目最新文档为准。对各项目无任何贬低之意。
+
 | 能力 | dsh-projects-mode | lanyun077/dsh-project | WenhongPan/dsh-projects | dsh-project-context |
 |---|---|---|---|---|
 | 侧边栏功能行入口 + 全屏管理台 | ✅ | ✅ | ❌（官方 slot 分组） | ❌ |
@@ -67,6 +69,13 @@ cd ~/.dsh/profiles/web && pnpm remove dsh-projects-mode
 - 在 macOS arm64 + DSH Desktop（DSH 0.1.1-rc.2）上验证；理论兼容 Linux / Windows
 - 不向 session log 写入任何自定义事件（避免上游事件白名单导致的拒读问题）
 - 与 task-board / ssh / skill-explorer 的入口行通过 `data-dsh-*-entry` 家族选择器协同排序
+
+## ⚠️ Disclaimer（声明）
+
+- 本插件为**独立开发的社区项目**，非 DeepSeek 官方出品，未经官方审核或背书，与 DeepSeek 官方及其关联方不存在任何隶属或合作关系
+- 「DeepSeek」「DSH」及相关名称的权利归其权利人所有，本文中的提及仅用于说明兼容对象
+- 本插件通过 DSH 公开加载机制与其私有运行时接口协作；DSH 后续版本变更接口可能导致插件失效，作者不对由此产生的任何损失负责
+- 插件仅在本地读取自身数据文件与会话日志元信息，不上传、不收集、不向第三方发送任何数据
 
 ## License
 

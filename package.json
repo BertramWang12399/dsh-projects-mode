@@ -1,7 +1,7 @@
 {
   "name": "dsh-projects-mode",
   "version": "0.2.0",
-  "description": "Workbuddy-style project mode for the DSH web GUI: sidebar entry, full-screen project manager, live per-project context injection (instructions + refreshable memory), new-session-in-project with instant assignment, session badge.",
+  "description": "Project mode for the DSH web GUI: sidebar entry, full-screen project manager, live per-project context injection (instructions + refreshable memory), new-session-in-project with instant assignment, session badge.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
