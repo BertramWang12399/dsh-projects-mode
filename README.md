@@ -1,8 +1,8 @@
 # dsh-projects-mode
 
-<p align="center"><strong>为 DeepSeek Harness（DSH）Web GUI 打造的「项目模式」</strong></p>
+<p align="center"><strong>为 DeepSeek Harness（DSH）Web GUI 打造的 WorkBuddy 风格「项目模式」</strong></p>
 
-<p align="center">侧边栏功能行（任务看板 / SSH / 技能中心）新增「📁 项目」入口，点击在中间栏全屏打开项目管理台。把任意会话归入项目，为项目编写<strong>实时生效的指令与共享记忆</strong>，一键在项目内新建会话。</p>
+侧边栏功能行（任务看板 / SSH / 技能中心）新增「📁 项目」入口，点击在中间栏全屏打开项目管理台。把任意会话归入项目，为项目编写**实时生效的指令与共享记忆**，一键在项目内新建会话。
 
 ---
 
@@ -17,6 +17,15 @@
 - **指令（Instructions）**：写入后通过 DSH `system-prompt` 动态段注入本项目**所有会话**——每次模型组装时实时渲染，改完立即生效，无需重启会话
 - **记忆（Memory）**：跨会话共享的项目记忆块，保存后在下一个模型步骤**原位替换刷新**（不是只注入一次的过期快照），清空即自动移除
 
+### 📡 自动项目简报（v0.3 新增，省 token 核心）
+- 项目内新建会话时，自动从本项目**最近会话的真实历史**蒸馏出一份简报（各会话标题 + 开篇需求 + 时间），注入新会话第一步
+- 效果：接续老任务**不用拖长老会话**——老会话每轮要重发全部历史（聊 200 轮 ≈ 每轮 5 万 token），项目新会话只带约 1 千 token 的简报 + 记忆，**省 95% 以上**
+- 简报按会话缓存 30 分钟，之后每步原位刷新（auto-compact 压缩后依然存活）；每个项目可一键开关
+
+### 📊 Token 计量（v0.3 新增）
+- 指令 / 记忆编辑框实时显示估算 token 占用，超过 1500 变黄、超过 4000 变红提醒精简
+- 项目详情行显示「每步上下文 ≈ N tokens」，本项目注入成本一目了然
+
 ### 🆕 项目内新建会话 + 会话徽标
 - 「✨ 新建会话」创建空白会话并**立即写入归属**
 - 对话区右上角浮动**项目徽标**：随时显示当前会话归属，点击即可切换/移出——无需打开管理台
@@ -30,7 +39,7 @@
 ## 📦 安装
 
 ```bash
-git clone https://github.com/BertramWang12399/dsh-projects-mode.git ~/.dsh/plugins/dsh-projects-mode
+git clone https://github.com/<you>/dsh-projects-mode.git ~/.dsh/plugins/dsh-projects-mode
 dsh plugin --profile web add link:$HOME/.dsh/plugins/dsh-projects-mode
 # 重启 dsh web（DSH Desktop 会自动拉起子进程），浏览器硬刷新（Cmd/Ctrl+Shift+R）
 ```
@@ -46,13 +55,13 @@ cd ~/.dsh/profiles/web && pnpm remove dsh-projects-mode
 
 ## 🆚 与社区同类插件的差异
 
-> 以下对比基于各项目 README 在本文撰写时点的公开描述，仅用于说明能力差异；如有出入，以原项目最新文档为准。对各项目无任何贬低之意。
-
 | 能力 | dsh-projects-mode | lanyun077/dsh-project | WenhongPan/dsh-projects | dsh-project-context |
 |---|---|---|---|---|
 | 侧边栏功能行入口 + 全屏管理台 | ✅ | ✅ | ❌（官方 slot 分组） | ❌ |
 | 指令注入且**实时生效** | ✅ system-prompt 段 | ✅ 同左 | ❌ 明确不做 | ❌ 硬编码模板 |
 | 记忆**中途更新即时刷新** | ✅ 原位替换 | ❌ 仅首条消息快照 | ❌ | ⚠️ 有替换但内容不可编辑 |
+| **自动项目简报**（从真实历史蒸馏，新会话免拖老会话） | ✅ | ❌ | ❌ | ❌ |
+| **Token 计量**（编辑器实时估算 + 项目上下文成本） | ✅ | ❌ | ❌ | ❌ |
 | 新建会话**立即写归属** | ✅ | ✅ | ⚠️ 隐式（Workspace 机制） | ❌ |
 | **会话徽标**（任意时刻可见/切换） | ✅ | ❌ | ❌ | ⚠️ 仅 on/off 开关 |
 | 真实活跃时间（日志 mtime） | ✅ | ❌ | ⚠️ 用内部状态字段 | ❌ |
@@ -69,13 +78,6 @@ cd ~/.dsh/profiles/web && pnpm remove dsh-projects-mode
 - 在 macOS arm64 + DSH Desktop（DSH 0.1.1-rc.2）上验证；理论兼容 Linux / Windows
 - 不向 session log 写入任何自定义事件（避免上游事件白名单导致的拒读问题）
 - 与 task-board / ssh / skill-explorer 的入口行通过 `data-dsh-*-entry` 家族选择器协同排序
-
-## ⚠️ Disclaimer（声明）
-
-- 本插件为**独立开发的社区项目**，非 DeepSeek 官方出品，未经官方审核或背书，与 DeepSeek 官方及其关联方不存在任何隶属或合作关系
-- 「DeepSeek」「DSH」及相关名称的权利归其权利人所有，本文中的提及仅用于说明兼容对象
-- 本插件通过 DSH 公开加载机制与其私有运行时接口协作；DSH 后续版本变更接口可能导致插件失效，作者不对由此产生的任何损失负责
-- 插件仅在本地读取自身数据文件与会话日志元信息，不上传、不收集、不向第三方发送任何数据
 
 ## License
 
